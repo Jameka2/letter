@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>رسالة سرية | هجورة</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      overflow: hidden;
+      font-family: Tahoma, Arial, sans-serif;
+      color: #f5e5b4;
+      background:
+        radial-gradient(ellipse at top, #302515 0%, transparent 55%),
+        linear-gradient(135deg, #080808, #17130c, #050505);
+    }
+
+    .gold-particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      bottom: -30px;
+      color: #d9b45b;
+      opacity: 0;
+      animation: rise linear infinite;
+    }
+
+    @keyframes rise {
+      0% {
+        transform: translateY(0) rotate(0);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(-110vh) rotate(180deg);
+        opacity: 0;
+      }
+    }
+
+    .card {
+      width: min(100%, 410px);
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 38px 28px;
+      border: 1px solid #b99543;
+      border-radius: 22px;
+      background: linear-gradient(145deg, #1b1914, #0b0b0b);
+      box-shadow:
+        0 0 35px #c19a4320,
+        inset 0 0 20px #d9b45b08;
+    }
+
+    .ornament {
+      color: #d9b45b;
+      font-size: 17px;
+      letter-spacing: 7px;
+    }
+
+    .lock {
+      font-size: 54px;
+      margin: 20px 0;
+      filter: drop-shadow(0 0 12px #d9b45b55);
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: 27px;
+      color: #e4c474;
+    }
+
+    p {
+      color: #c4b58f;
+      line-height: 1.9;
+      font-size: 14px;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      margin: 24px 0 14px;
+      padding: 15px;
+      border: 1px solid #8d7138;
+      border-radius: 10px;
+      background: #080808;
+      color: #f5e5b4;
+      outline: none;
+      text-align: center;
+      font-size: 22px;
+      letter-spacing: 8px;
+    }
+
+    input:focus {
+      border-color: #f0cf79;
+      box-shadow: 0 0 14px #d9b45b25;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #f0d58b;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #f0d58b, #b18a35);
+      color: #171108;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, filter 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+    }
+
+    #errorMessage {
+      min-height: 25px;
+      margin-bottom: 0;
+      color: #e6a3a3;
+    }
+
+    .footer {
+      margin-top: 24px;
+      color: #a68a4e;
+      font-size: 11px;
+      letter-spacing: 2px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="gold-particles" id="particles"></div>
+
+  <main class="card">
+    <div class="ornament">✦ ━━━━━ ✦</div>
+
+    <div class="lock">🔐</div>
+
+    <h1>رسالة سرية لهجورة</h1>
+
+    <p>
+      في جواب مخصوص ليكي وحدك...
+      <br>
+      دخلي كلمة السر عشان تكتشفي اللي جواه 🖤
+    </p>
+
+    <form id="passwordForm">
+      <input
+        id="password"
+        type="password"
+        placeholder="••••"
+        inputmode="numeric"
+        autocomplete="off"
+        aria-label="كلمة السر"
+        required
+      >
+
+      <button type="submit">افتحي الجواب ✨</button>
+      <p id="errorMessage" role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="footer">MADE WITH LOVE ♥</div>
+  </main>
+
+  <script>
+    // ذرات ذهبية متحركة
+    const particles = document.getElementById("particles");
+
+    for (let i = 0; i < 25; i++) {
+      const item = document.createElement("span");
+      item.className = "particle";
+      item.textContent = Math.random() > 0.5 ? "✦" : "·";
+      item.style.left = Math.random() * 100 + "%";
+      item.style.fontSize = (12 + Math.random() * 15) + "px";
+      item.style.animationDuration = (7 + Math.random() * 10) + "s";
+      item.style.animationDelay = (Math.random() * 10) + "s";
+      particles.appendChild(item);
+    }
+
+    document.getElementById("passwordForm")
+      .addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const entered =
+          document.getElementById("password").value.trim();
+
+        if (entered === "901") {
+          sessionStorage.setItem("huguraUnlocked", "yes");
+          window.location.href = "letter.html";
+        } else {
+          document.getElementById("errorMessage").textContent =
+            "كلمة السر غير صحيحة، حاولي مرة تانية ❤️";
+
+          document.getElementById("password").value = "";
+          document.getElementById("password").focus();
+        }
+      });
+  </script>
+</body>
+</html>
